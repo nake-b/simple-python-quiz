@@ -1,4 +1,5 @@
 from tkinter import *
+from quiz_brain import QuizBrain
 
 THEME_COLOR = "#375362"
 TRUE_COLOR = "#8ce681"
@@ -14,7 +15,10 @@ class QuizInterface:
         def __init__(self, **kwargs):
             super().__init__(highlightthickness=0, **kwargs)
 
-    def __init__(self):
+    def __init__(self, quiz_brain: QuizBrain):
+        # Quiz brain
+        self.quiz = quiz_brain
+
         # Style
         self.question_font = ("Arial", 17, "italic")
 
@@ -46,10 +50,40 @@ class QuizInterface:
         # sticky=N + S + W + E
 
         # Buttons
-        self.true_button = self.QuizButton(image=self.true_img)
+        self.true_button = self.QuizButton(image=self.true_img,
+                                           command=lambda: self.button_press(True))
         self.true_button.grid(column=0, row=2)
-        self.false_button = self.QuizButton(image=self.false_img)
+        self.false_button = self.QuizButton(image=self.false_img,
+                                            command=lambda: self.button_press(False))
         self.false_button.grid(column=1, row=2)
 
         # Setup
+        self.next_question()
         self.window.mainloop()
+
+    def button_press(self, answer):
+        is_right = self.quiz.check_answer(answer)
+        color = TRUE_COLOR if is_right else FALSE_COLOR
+        self.canvas.config(bg=color)
+        self.window.after(900, self.next_question)
+
+    def new_game(self):
+        pass
+
+    def end_game(self):
+        pass
+
+    def next_question(self):
+        self.canvas.config(bg="white")
+        if self.quiz.out_of_questions():
+            self.canvas.itemconfig(self.question,
+                                   text=f"You've completed the quiz with the score "
+                                        f"of {self.quiz.score}/{self.quiz.no_of_questions}!\n"
+                                        f"Do you want another round?")
+            self.true_button.config(command=self.new_game)
+            self.false_button.config(command=self.end_game)
+        else:
+            question_text = self.quiz.next_question()
+            self.canvas.itemconfig(self.question, text=question_text)
+            self.score_label.config(text=f"Score: {self.quiz.score}/{self.quiz.no_of_questions}")
+            self.question_label.config(text=f"Q: {self.quiz.question_number}/{self.quiz.no_of_questions}")

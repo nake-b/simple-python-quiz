@@ -1,3 +1,7 @@
+from quiz_brain import QuizBrain
 from gui import QuizInterface
+from question import get_questions
 
-gui = QuizInterface()
+question_bank = get_questions(10)
+quiz = QuizBrain(question_bank)
+gui = QuizInterface(quiz)
