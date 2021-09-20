@@ -1,10 +1,11 @@
 from tkinter import *
 from quiz_brain import QuizBrain
-from question import get_questions
+from question import get_questions, TOKEN
 
 THEME_COLOR = "#375362"
 TRUE_COLOR = "#8ce681"
 FALSE_COLOR = "#e38686"
+ROUNDS = 10
 
 
 class QuizInterface:
@@ -16,7 +17,7 @@ class QuizInterface:
         def __init__(self, **kwargs):
             super().__init__(highlightthickness=0, **kwargs)
 
-    def __init__(self, quiz_brain=QuizBrain(get_questions(2))):
+    def __init__(self, quiz_brain=QuizBrain(get_questions(amount=ROUNDS, token=TOKEN))):
         # Quiz brain
         self.quiz = quiz_brain
 
@@ -69,7 +70,7 @@ class QuizInterface:
         self.window.after(900, self.next_question)
 
     def new_game(self):
-        question_bank = get_questions()
+        question_bank = get_questions(amount=ROUNDS, token=TOKEN)
         self.quiz = QuizBrain(question_bank)
         self.true_button.config(command=lambda: self.button_press(True))
         self.false_button.config(command=lambda: self.button_press(False))
