@@ -40,12 +40,13 @@ class QuizInterface:
         # Canvas
         self.canvas = Canvas(width=300, height=300, highlightthickness=0,
                              bg="white")
-        self.question = self.canvas.create_text(300 / 2,
-                                                350 / 2,
+        self.question = self.canvas.create_text(150,
+                                                150,
                                                 font=self.question_font,
                                                 text="Question",
                                                 fill=THEME_COLOR,
-                                                width=290)
+                                                width=290,
+                                                justify="center")
         self.canvas.grid(column=0, row=1, columnspan=2, pady=20)
         # sticky=N + S + W + E
 
