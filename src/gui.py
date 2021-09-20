@@ -28,7 +28,7 @@ class QuizInterface:
         self.false_img = PhotoImage(file="../images/false.png")
 
         # Labels
-        self.question_label = self.QuizLabel(text="Q.0/10")
+        self.question_label = self.QuizLabel(text="Q: 0/10")
         self.question_label.grid(column=0, row=0, sticky=W)
         self.score_label = self.QuizLabel(text="Score: 0/10")
         self.score_label.grid(column=1, row=0, sticky=E)
@@ -42,8 +42,8 @@ class QuizInterface:
                                                 text="Question",
                                                 fill=THEME_COLOR,
                                                 width=290)
-        self.canvas.grid(column=0, row=1, columnspan=2, pady=20,
-                         sticky=N + S + W + E)
+        self.canvas.grid(column=0, row=1, columnspan=2, pady=20)
+        # sticky=N + S + W + E
 
         # Buttons
         self.true_button = self.QuizButton(image=self.true_img)
