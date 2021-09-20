@@ -22,8 +22,12 @@ def get_questions(amount=10) -> list:
         text = question["question"]
         text = html.unescape(text)
         answer = question["correct_answer"]
+        # Depending on opendb API to have correct data, maybe change this?
+        answer = True if answer.lower == "true" else False
         new_question = Question(text, answer)
         question_bank.append(new_question)
 
     return question_bank
+
+
 
